@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: static-build-${{ github.ref }}
@@ -32,18 +30,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Setup Pages
-        if: ${{ github.event.repository.private == false }}
-        uses: actions/configure-pages@v6
-
-      - name: Upload artifact
-        if: ${{ github.event.repository.private == false }}
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: ./dist
-
-      - name: Deploy to GitHub Pages
-        if: ${{ github.event.repository.private == false }}
-        id: deployment
-        uses: actions/deploy-pages@v5
