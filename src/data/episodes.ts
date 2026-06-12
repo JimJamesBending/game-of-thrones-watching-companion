@@ -1,5 +1,7 @@
 import { episodeS01E01 } from './episode-s01e01'
+import { characterImageById } from './character-images'
 import { scrapedEpisodes } from './generated-episodes'
+import { locationImageById, portraitByCharacterId } from './image-assets'
 import { originByHouse } from './origins'
 import type { EpisodeContent, EpisodeIndexItem } from './types'
 
@@ -87,11 +89,11 @@ const generatedEpisodes: Record<string, EpisodeContent> = scrapedEpisodes
 
 export function getEpisodeContent(id: string): EpisodeContent {
   if (curatedEpisodes[id]) {
-    return withDefaultOrigins(curatedEpisodes[id])
+    return hydrateEpisode(curatedEpisodes[id])
   }
 
   if (generatedEpisodes[id]) {
-    return withDefaultOrigins(generatedEpisodes[id])
+    return hydrateEpisode(generatedEpisodes[id])
   }
 
   const fallback = episodeIndex.find((item) => item.id === id) ?? episodeIndex[0]
@@ -111,13 +113,18 @@ export function getEpisodeContent(id: string): EpisodeContent {
   }
 }
 
-function withDefaultOrigins(episode: EpisodeContent): EpisodeContent {
+function hydrateEpisode(episode: EpisodeContent): EpisodeContent {
   return {
     ...episode,
+    locations: episode.locations.map((location) => ({
+      ...location,
+      image: location.image ?? locationImageById[location.id],
+    })),
     characters: episode.characters.map((character) => {
-      if (character.origin) return character
+      const portrait = character.portrait ?? characterImageById[character.id] ?? portraitByCharacterId[character.id]
+      if (character.origin) return { ...character, portrait }
       const origin = originByHouse[character.house]
-      return origin ? { ...character, origin } : character
+      return origin ? { ...character, portrait, origin } : { ...character, portrait }
     }),
   }
 }

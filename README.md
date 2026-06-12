@@ -2,9 +2,11 @@
 
 A spoiler-safe watching companion for people who struggle to remember names, houses, relationships, and places while watching Game of Thrones.
 
-The public site is configured for GitHub Pages at:
+The GitHub repository is currently private. GitHub Pages was previously configured at:
 
 https://jimjamesbending.github.io/game-of-thrones-watching-companion/
+
+After the repo was made private, that URL may return `404` unless Pages access is re-enabled for private repositories.
 
 ## Current Coverage
 
@@ -25,6 +27,8 @@ https://jimjamesbending.github.io/game-of-thrones-watching-companion/
 - House color key.
 - Schematic map and place-name layer for each episode.
 - Character-origin icons on the map when a house/home origin can be inferred.
+- Real S1E1 character stills in graph nodes and roster cards.
+- Real map/place images for the first curated episode.
 - Character cards for name memory.
 
 ## Local Development
@@ -58,6 +62,8 @@ Start here:
 - [docs/SCRAPE_SOURCES.md](docs/SCRAPE_SOURCES.md)
 - [docs/DESIGNER_PROMPT.md](docs/DESIGNER_PROMPT.md)
 - [docs/LORE_GLOSSARY_SEED.md](docs/LORE_GLOSSARY_SEED.md)
+- [docs/CHARACTER_IMAGE_SOURCES.md](docs/CHARACTER_IMAGE_SOURCES.md)
+- [docs/IMAGE_SOURCES.md](docs/IMAGE_SOURCES.md)
 
 The short version:
 
@@ -73,10 +79,17 @@ To refresh the auto-imported all-episode scene data:
 npm run import:internet
 ```
 
+To refresh image assets:
+
+```bash
+npm run import:character-images
+npm run import:images
+```
+
 ## Image Policy
 
-The app supports portraits through each character's `portrait` field. Do not commit scraped HBO stills or copyrighted publicity photos unless you have the right to use them. Use original, licensed, public-domain, or user-provided images. If no portrait is supplied, the UI shows a house-colored initials avatar.
+The app supports portraits through each character's `portrait` field. S1E1 currently uses episode-safe character stills imported from Game of Thrones Wiki / Fandom for this private fan repo, with sources listed in `docs/CHARACTER_IMAGE_SOURCES.md`. Commons/Wikidata images are used for actor/place/map fallbacks, with sources listed in `docs/IMAGE_SOURCES.md`. If no portrait is supplied, the UI shows a house-colored initials avatar.
 
 ## Deployment
 
-Pushing to `main` runs `.github/workflows/deploy.yml`, builds the Vite app, and deploys `dist/` to GitHub Pages.
+Pushing to `main` runs `.github/workflows/deploy.yml` and builds the Vite app. GitHub Pages availability depends on the private-repo Pages settings.

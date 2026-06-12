@@ -75,6 +75,7 @@ export type EpisodeLocation = {
   x: number
   y: number
   known: string
+  image?: string
 }
 
 export type MapRoute = {

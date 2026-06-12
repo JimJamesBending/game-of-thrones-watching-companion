@@ -577,11 +577,33 @@
     linear-gradient(145deg, #1e3739, #1d2422 52%, #4f2c2c);
 }
 
+.map-board::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 12, 0.08), rgba(7, 11, 12, 0.5)),
+    radial-gradient(circle at 76% 54%, rgba(31, 47, 47, 0.42), transparent 32%);
+  pointer-events: none;
+}
+
+.map-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  opacity: 0.52;
+  filter: saturate(0.88) contrast(1.08) brightness(0.62);
+}
+
 .map-board svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
 .landmass {
@@ -604,6 +626,7 @@
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
+  z-index: 3;
 }
 
 .origin-pin {
@@ -614,7 +637,7 @@
   display: grid;
   gap: 0.2rem;
   justify-items: center;
-  z-index: 2;
+  z-index: 3;
 }
 
 .origin-stack {
@@ -688,6 +711,17 @@
 
 .place-card {
   padding: 0.78rem;
+  overflow: hidden;
+}
+
+.place-image {
+  width: calc(100% + 1.56rem);
+  height: 8.5rem;
+  display: block;
+  margin: -0.78rem -0.78rem 0.75rem;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  filter: saturate(0.94) contrast(1.04);
 }
 
 .place-card strong,

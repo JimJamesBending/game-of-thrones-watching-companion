@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc -b",
-    "import:internet": "node scripts/import-internet-data.mjs"
+    "import:internet": "node scripts/import-internet-data.mjs",
+    "import:images": "node scripts/import-commons-images.mjs",
+    "import:character-images": "node scripts/import-fandom-character-images.mjs"
   },
   "dependencies": {
     "@dagrejs/dagre": "^3.0.0",

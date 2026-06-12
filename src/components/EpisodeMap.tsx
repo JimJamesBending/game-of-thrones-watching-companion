@@ -1,4 +1,5 @@
 import type { EpisodeContent, EpisodeLocation } from '../data/types'
+import { knownWorldMap } from '../data/image-assets'
 
 export function EpisodeMap({ episode }: { episode: EpisodeContent }) {
   const originGroups = groupOrigins(episode)
@@ -11,7 +12,8 @@ export function EpisodeMap({ episode }: { episode: EpisodeContent }) {
 
   return (
     <div className="map-wrap">
-      <div className="map-board" role="img" aria-label="Schematic Westeros and Essos episode map">
+      <div className="map-board" role="img" aria-label="Westeros and Essos episode map with place pins">
+        {knownWorldMap ? <img className="map-image" src={knownWorldMap} alt="" /> : null}
         <svg viewBox="0 0 100 100" aria-hidden="true">
           <path
             className="landmass"
@@ -60,6 +62,7 @@ export function EpisodeMap({ episode }: { episode: EpisodeContent }) {
       <div className="place-list">
         {episode.locations.map((location) => (
           <article className="place-card" key={location.id}>
+            {location.image ? <img className="place-image" src={location.image} alt="" /> : null}
             <strong>{location.name}</strong>
             <p>{location.region}</p>
             <p>{location.known}</p>
