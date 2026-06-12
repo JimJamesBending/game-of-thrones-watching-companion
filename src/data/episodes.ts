@@ -1,4 +1,6 @@
 import { episodeS01E01 } from './episode-s01e01'
+import { scrapedEpisodes } from './generated-episodes'
+import { originByHouse } from './origins'
 import type { EpisodeContent, EpisodeIndexItem } from './types'
 
 export const episodeIndex: EpisodeIndexItem[] = [
@@ -81,9 +83,15 @@ const curatedEpisodes: Record<string, EpisodeContent> = {
   [episodeS01E01.id]: episodeS01E01,
 }
 
+const generatedEpisodes: Record<string, EpisodeContent> = scrapedEpisodes
+
 export function getEpisodeContent(id: string): EpisodeContent {
   if (curatedEpisodes[id]) {
-    return curatedEpisodes[id]
+    return withDefaultOrigins(curatedEpisodes[id])
+  }
+
+  if (generatedEpisodes[id]) {
+    return withDefaultOrigins(generatedEpisodes[id])
   }
 
   const fallback = episodeIndex.find((item) => item.id === id) ?? episodeIndex[0]
@@ -100,5 +108,16 @@ export function getEpisodeContent(id: string): EpisodeContent {
     locations: [],
     routes: [],
     sources: [],
+  }
+}
+
+function withDefaultOrigins(episode: EpisodeContent): EpisodeContent {
+  return {
+    ...episode,
+    characters: episode.characters.map((character) => {
+      if (character.origin) return character
+      const origin = originByHouse[character.house]
+      return origin ? { ...character, origin } : character
+    }),
   }
 }

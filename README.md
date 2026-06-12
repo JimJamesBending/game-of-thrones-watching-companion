@@ -9,8 +9,9 @@ https://jimjamesbending.github.io/game-of-thrones-watching-companion/
 ## Current Coverage
 
 - All 73 episode routes exist in the episode selector.
-- Season 1, Episode 1, "Winter Is Coming", is fully seeded as the proof-of-system.
-- Later episodes are scaffolded and intentionally marked as needing curation. This avoids pretending spoiler-safe data exists before it has been checked.
+- Season 1, Episode 1, "Winter Is Coming", is hand-curated as the proof-of-system for family relationships.
+- The other 72 episodes are auto-generated from public scene data with characters, co-appearance links, episode places, and character-origin map icons.
+- Auto-generated pages are marked as imported data because family relationships still need human spoiler review.
 
 ## What It Does
 
@@ -23,6 +24,7 @@ https://jimjamesbending.github.io/game-of-thrones-watching-companion/
   - Dashed lines: non-blood/non-marriage links such as ward, service, acquaintance, secret, conflict, or betrothal.
 - House color key.
 - Schematic map and place-name layer for each episode.
+- Character-origin icons on the map when a house/home origin can be inferred.
 - Character cards for name memory.
 
 ## Local Development
@@ -53,6 +55,9 @@ Start here:
 - [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md)
 - [docs/DATA_MODEL.md](docs/DATA_MODEL.md)
 - [docs/TECH_RESEARCH.md](docs/TECH_RESEARCH.md)
+- [docs/SCRAPE_SOURCES.md](docs/SCRAPE_SOURCES.md)
+- [docs/DESIGNER_PROMPT.md](docs/DESIGNER_PROMPT.md)
+- [docs/LORE_GLOSSARY_SEED.md](docs/LORE_GLOSSARY_SEED.md)
 
 The short version:
 
@@ -61,6 +66,12 @@ The short version:
 3. Import it in `src/data/episodes.ts`.
 4. Add it to `curatedEpisodes`.
 5. Run `npm run typecheck`, `npm run lint`, and `npm run build`.
+
+To refresh the auto-imported all-episode scene data:
+
+```bash
+npm run import:internet
+```
 
 ## Image Policy
 

@@ -25,6 +25,7 @@ export function CharacterRoster({ episode }: { episode: EpisodeContent }) {
                 <div className="roster-meta">
                   <span>{house.name}</span>
                   {bornHouse ? <span>Born {bornHouse.name}</span> : null}
+                  {character.origin ? <span>From {character.origin.name}</span> : null}
                   {character.actor ? <span>{character.actor}</span> : null}
                 </div>
               </div>

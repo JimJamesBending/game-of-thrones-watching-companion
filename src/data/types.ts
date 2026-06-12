@@ -1,16 +1,28 @@
-export type EpisodeStatus = 'curated' | 'scaffold'
+export type EpisodeStatus = 'curated' | 'scraped' | 'scaffold'
 
 export type HouseId =
   | 'arryn'
   | 'baratheon'
+  | 'bolton'
+  | 'clegane'
   | 'dothraki'
+  | 'free-folk'
+  | 'frey'
   | 'greyjoy'
+  | 'karstark'
   | 'lannister'
+  | 'manderly'
+  | 'martell'
   | 'mormont'
   | 'night-watch'
+  | 'reed'
+  | 'royce'
   | 'stark'
   | 'targaryen'
+  | 'tarly'
+  | 'tyrell'
   | 'tully'
+  | 'umber'
   | 'independent'
 
 export type RelationshipKind =
@@ -36,6 +48,15 @@ export type Character = {
   aliases?: string[]
   tags?: string[]
   portrait?: string
+  origin?: CharacterOrigin
+}
+
+export type CharacterOrigin = {
+  name: string
+  region: string
+  x: number
+  y: number
+  reason: string
 }
 
 export type Relationship = {

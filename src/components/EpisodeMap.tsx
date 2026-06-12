@@ -1,7 +1,9 @@
 import type { EpisodeContent, EpisodeLocation } from '../data/types'
 
 export function EpisodeMap({ episode }: { episode: EpisodeContent }) {
-  if (!episode.locations.length) {
+  const originGroups = groupOrigins(episode)
+
+  if (!episode.locations.length && !originGroups.length) {
     return <div className="graph-empty">No place data has been curated for this episode yet.</div>
   }
 
@@ -37,6 +39,22 @@ export function EpisodeMap({ episode }: { episode: EpisodeContent }) {
             <span className="pin-label">{location.name}</span>
           </div>
         ))}
+
+        {originGroups.map((group) => (
+          <div
+            key={group.key}
+            className="origin-pin"
+            style={{ '--x': group.x, '--y': group.y } as React.CSSProperties}
+            aria-label={`${group.name}: ${group.characters.map((character) => character.short).join(', ')}`}
+          >
+            <span className="origin-stack" aria-hidden="true">
+              {group.characters.slice(0, 4).map((character) => (
+                <span key={character.id}>{initials(character.short)}</span>
+              ))}
+            </span>
+            <span className="origin-label">{group.name}</span>
+          </div>
+        ))}
       </div>
 
       <div className="place-list">
@@ -47,6 +65,21 @@ export function EpisodeMap({ episode }: { episode: EpisodeContent }) {
             <p>{location.known}</p>
           </article>
         ))}
+
+        {originGroups.length ? (
+          <article className="place-card origin-summary">
+            <strong>Character origins</strong>
+            <p>House or home markers for people shown in this episode.</p>
+            <div className="origin-list">
+              {originGroups.slice(0, 8).map((group) => (
+                <span key={group.key}>
+                  {group.name}: {group.characters.slice(0, 3).map((character) => character.short).join(', ')}
+                  {group.characters.length > 3 ? ` +${group.characters.length - 3}` : ''}
+                </span>
+              ))}
+            </div>
+          </article>
+        ) : null}
       </div>
     </div>
   )
@@ -62,4 +95,48 @@ function RouteLine({ from, to }: { from: EpisodeLocation; to: EpisodeLocation })
       d={`M ${from.x} ${from.y} Q ${midX} ${midY} ${to.x} ${to.y}`}
     />
   )
+}
+
+function groupOrigins(episode: EpisodeContent) {
+  const groups = new Map<
+    string,
+    {
+      key: string
+      name: string
+      region: string
+      x: number
+      y: number
+      characters: EpisodeContent['characters']
+    }
+  >()
+
+  for (const character of episode.characters) {
+    if (!character.origin) continue
+
+    const key = `${character.origin.name}-${character.origin.region}`
+    const existing = groups.get(key)
+    if (existing) {
+      existing.characters.push(character)
+    } else {
+      groups.set(key, {
+        key,
+        name: character.origin.name,
+        region: character.origin.region,
+        x: character.origin.x,
+        y: character.origin.y,
+        characters: [character],
+      })
+    }
+  }
+
+  return [...groups.values()].sort((a, b) => b.characters.length - a.characters.length)
+}
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('')
 }

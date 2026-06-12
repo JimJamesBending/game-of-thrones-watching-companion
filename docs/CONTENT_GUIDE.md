@@ -89,3 +89,14 @@ If a character has no portrait, leave `portrait` blank. The app will render a ho
 6. Add sources.
 7. Read the page as if you have never seen the next episode.
 8. Run `npm run typecheck`, `npm run lint`, and `npm run build`.
+
+## Auto-Generated Episodes
+
+All non-curated episodes are generated from public scene data. These pages are useful for:
+
+- who appears in the episode
+- who shares scenes
+- places shown in the episode
+- house/home origin icons where inferable
+
+They are not final family trees. Before marking an episode as fully curated, review each relationship and replace generic co-appearance links with precise blood, marriage, ward, service, conflict, or secret links.

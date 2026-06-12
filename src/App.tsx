@@ -9,6 +9,7 @@ import {
   Shield,
   Users,
 } from 'lucide-react'
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import './App.css'
 import { EpisodeGraph } from './components/EpisodeGraph'
@@ -31,14 +32,44 @@ function App() {
 function EpisodePage() {
   const params = useParams()
   const navigate = useNavigate()
+  const [railWidth, setRailWidth] = useState(() => {
+    if (typeof window === 'undefined') return 320
+    return Number(window.localStorage.getItem('got-rail-width')) || 320
+  })
+  const [isResizing, setIsResizing] = useState(false)
   const episode = getEpisodeContent(params.episodeId ?? 's01e01')
   const seasonEpisodes = episodeIndex.filter((item) => item.season === episode.season)
   const knownCount = episode.characters.length
   const placeCount = episode.locations.length
   const directCount = episode.relationships.length
+  const shellStyle = { '--rail-width': `${railWidth}px` } as CSSProperties
+
+  useEffect(() => {
+    if (!isResizing) return
+
+    const handleMove = (event: PointerEvent) => {
+      const nextWidth = Math.min(480, Math.max(240, event.clientX))
+      setRailWidth(nextWidth)
+      window.localStorage.setItem('got-rail-width', String(nextWidth))
+    }
+
+    const stopResizing = () => setIsResizing(false)
+
+    document.body.style.cursor = 'col-resize'
+    document.body.style.userSelect = 'none'
+    window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerup', stopResizing)
+
+    return () => {
+      document.body.style.cursor = ''
+      document.body.style.userSelect = ''
+      window.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('pointerup', stopResizing)
+    }
+  }, [isResizing])
 
   return (
-    <main className="app-shell">
+    <main className={isResizing ? 'app-shell is-resizing' : 'app-shell'} style={shellStyle}>
       <a className="skip-link" href="#relationship-graph">
         Skip to relationship graph
       </a>
@@ -105,6 +136,20 @@ function EpisodePage() {
         </div>
       </aside>
 
+      <button
+        type="button"
+        className="rail-resizer"
+        aria-label="Resize navigation rail"
+        aria-orientation="vertical"
+        aria-valuemin={240}
+        aria-valuemax={480}
+        aria-valuenow={railWidth}
+        onPointerDown={(event) => {
+          event.preventDefault()
+          setIsResizing(true)
+        }}
+      />
+
       <section className="page-content">
         <header className="episode-header">
           <div className="header-copy">
@@ -120,6 +165,20 @@ function EpisodePage() {
           </div>
         </header>
 
+        {episode.status === 'scraped' ? (
+          <section className="empty-state imported-state" aria-label="Internet import status">
+            <BookOpen size={22} />
+            <div>
+              <h3>Internet imported</h3>
+              <p>
+                This page was generated from public scene data. It covers names, episode places,
+                co-appearances, and origin icons; family labels should still be reviewed before
+                treating them as final.
+              </p>
+            </div>
+          </section>
+        ) : null}
+
         {episode.status === 'scaffold' ? (
           <section className="empty-state" aria-label="Curation status">
             <BookOpen size={22} />
@@ -133,60 +192,64 @@ function EpisodePage() {
           </section>
         ) : null}
 
-        <section className="workbench" id="relationship-graph">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Interactive relationship graph</p>
-              <h3>Who is connected to whom</h3>
-            </div>
-            <div className="search-hint">
-              <Search size={16} />
-              <span>Pan, zoom, fit view, then zoom in for details</span>
-            </div>
-          </div>
-
-          <EpisodeGraph episode={episode} />
-        </section>
-
-        <div className="companion-grid">
-          <section className="panel" id="places">
-            <div className="section-heading compact">
-              <div>
-                <p className="eyebrow">Map layer</p>
-                <h3>Places this episode expects you to know</h3>
-              </div>
-            </div>
-            <EpisodeMap episode={episode} />
-          </section>
-
-          <section className="panel">
-            <div className="section-heading compact">
-              <div>
-                <p className="eyebrow">Houses</p>
-                <h3>Color key</h3>
-              </div>
-            </div>
-            <HouseLegend houseIds={episode.houses} />
-            <div className="relationship-key">
-              {relationCopy.map((item) => (
-                <div key={item.kind} className="relationship-key-row">
-                  <span className={`line-sample line-${item.kind}`} />
-                  <span>{item.label}</span>
+        <div className="content-columns">
+          <div className="primary-column">
+            <section className="workbench" id="relationship-graph">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">Interactive relationship graph</p>
+                  <h3>Who is connected to whom</h3>
                 </div>
-              ))}
-            </div>
-          </section>
-        </div>
+                <div className="search-hint">
+                  <Search size={16} />
+                  <span>Pan, zoom, fit view, then zoom in for details</span>
+                </div>
+              </div>
 
-        <section className="panel" id="roster">
-          <div className="section-heading compact">
-            <div>
-              <p className="eyebrow">Name memory</p>
-              <h3>Character cards</h3>
-            </div>
+              <EpisodeGraph episode={episode} />
+            </section>
+
+            <section className="panel" id="roster">
+              <div className="section-heading compact">
+                <div>
+                  <p className="eyebrow">Name memory</p>
+                  <h3>Character cards</h3>
+                </div>
+              </div>
+              <CharacterRoster episode={episode} />
+            </section>
           </div>
-          <CharacterRoster episode={episode} />
-        </section>
+
+          <div className="secondary-column">
+            <section className="panel" id="places">
+              <div className="section-heading compact">
+                <div>
+                  <p className="eyebrow">Map layer</p>
+                  <h3>Places and character origins</h3>
+                </div>
+              </div>
+              <EpisodeMap episode={episode} />
+            </section>
+
+            <section className="panel">
+              <div className="section-heading compact">
+                <div>
+                  <p className="eyebrow">Houses</p>
+                  <h3>Color key</h3>
+                </div>
+              </div>
+              <HouseLegend houseIds={episode.houses} />
+              <div className="relationship-key">
+                {relationCopy.map((item) => (
+                  <div key={item.kind} className="relationship-key-row">
+                    <span className={`line-sample line-${item.kind}`} />
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
       </section>
     </main>
   )
@@ -197,7 +260,7 @@ function Stat({
   label,
   value,
 }: {
-  icon: React.ReactNode
+  icon: ReactNode
   label: string
   value: number | string
 }) {

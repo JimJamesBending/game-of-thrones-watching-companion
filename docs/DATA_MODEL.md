@@ -16,6 +16,8 @@ const curatedEpisodes: Record<string, EpisodeContent> = {
 
 When a route is not curated, the app returns a scaffold with no graph data and a clear "curation needed" message.
 
+Generated internet imports live in `src/data/generated-episodes.ts` and are used when no curated episode override exists. Curated files always win over generated data.
+
 ## Episode File
 
 Create one file per episode:
@@ -59,6 +61,7 @@ export const episodeS01E02: EpisodeContent = {
 - `aliases`: optional names.
 - `tags`: short chips for the zoomed-in node.
 - `portrait`: optional public path or licensed URL.
+- `origin`: optional house/home marker used by the map.
 
 ## Relationship Fields
 

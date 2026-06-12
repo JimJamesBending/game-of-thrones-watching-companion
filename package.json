@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "import:internet": "node scripts/import-internet-data.mjs"
   },
   "dependencies": {
     "@dagrejs/dagre": "^3.0.0",

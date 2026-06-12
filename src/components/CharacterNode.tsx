@@ -11,7 +11,7 @@ export function CharacterNode({ data }: NodeProps<CharacterFlowNode>) {
   const zoom = useStore(zoomSelector)
   const house = houses[data.house]
   const compact = zoom < 0.55
-  const detailed = zoom > 0.98
+  const detailed = zoom > 1.12
 
   return (
     <article

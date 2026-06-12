@@ -10,6 +10,7 @@ The app is designed as a static site so it can be public, low-maintenance, and h
 - Dagre for automatic graph layout.
 - Plain CSS tokens for a custom visual system with no heavy UI framework.
 - GitHub Actions + GitHub Pages for deployment.
+- Public scene data importer for all-episode coverage.
 
 ## Why React Flow
 
@@ -60,5 +61,6 @@ Fan wikis can expose future spoilers. Use them cautiously and only for the curre
 - Add search/filter inside the graph.
 - Add a "before watching" and "after watching" toggle for each episode.
 - Add source-attributed portrait packs once rights are clear.
+- Move generated episode records to per-episode JSON files if the bundle grows beyond comfortable static-site size.
 - Move content to JSON or MDX if non-developers will update it often.
 - Add visual regression screenshots for desktop and mobile.
