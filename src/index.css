@@ -1,0 +1,72 @@
+:root {
+  --page: #080c0d;
+  --page-2: #152020;
+  --paper: #101819;
+  --ink: #f4eee0;
+  --ink-soft: #d8cfbd;
+  --muted: #a7b0a9;
+  --line: rgba(255, 255, 255, 0.14);
+  --gold: #bfa157;
+  --red: #8e3433;
+  --teal: #40777b;
+  --green: #718b58;
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+  font: 16px/1.5 var(--sans);
+  color: var(--ink);
+  background: var(--page);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+code {
+  padding: 0.08rem 0.28rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
