@@ -15,15 +15,16 @@ import type { EpisodeContent, Relationship, RelationshipKind } from '../data/typ
 import { CharacterNode, type CharacterFlowNode, type CharacterNodeData } from './CharacterNode'
 
 const nodeTypes = { character: CharacterNode }
-const NODE_WIDTH = 272
-const NODE_HEIGHT = 164
-const VIEW_PADDING_X = 260
-const VIEW_PADDING_Y = 220
-const FIT_VIEW_OPTIONS = { padding: 0.2, duration: 500, minZoom: 0.18, maxZoom: 0.95 }
-const layoutKinds = new Set<RelationshipKind>(['blood', 'marriage', 'betrothal', 'ward'])
+const NODE_WIDTH = 336
+const NODE_HEIGHT = 208
+const VIEW_PADDING_X = 360
+const VIEW_PADDING_Y = 280
+const FIT_VIEW_OPTIONS = { padding: 0.08, duration: 500, minZoom: 0.64, maxZoom: 1.08 }
+const layoutKinds = new Set<RelationshipKind>(['blood', 'recognized', 'marriage', 'betrothal', 'ward'])
 
 const edgeColor: Record<RelationshipKind, string> = {
   blood: '#d2d7d3',
+  recognized: '#d9b86a',
   marriage: '#c8a451',
   betrothal: '#d48b75',
   ward: '#78a7ae',
@@ -50,7 +51,7 @@ export function EpisodeGraph({ episode }: { episode: EpisodeContent }) {
         fitViewOptions={FIT_VIEW_OPTIONS}
         translateExtent={extent}
         nodeExtent={extent}
-        minZoom={0.18}
+        minZoom={0.24}
         maxZoom={1.55}
         nodesDraggable={false}
         nodesConnectable={false}
@@ -81,11 +82,11 @@ function buildFlow(episode: EpisodeContent): {
   graph.setDefaultEdgeLabel(() => ({}))
   graph.setGraph({
     rankdir: 'TB',
-    ranksep: 112,
-    nodesep: 72,
-    edgesep: 34,
-    marginx: 72,
-    marginy: 72,
+    ranksep: 148,
+    nodesep: 96,
+    edgesep: 42,
+    marginx: 96,
+    marginy: 96,
     acyclicer: 'greedy',
     ranker: 'network-simplex',
   })
@@ -160,6 +161,7 @@ function getLayoutRelationships(relationships: Relationship[]) {
 
 function layoutEdgeOptions(kind: RelationshipKind) {
   if (kind === 'blood' || kind === 'marriage') return { weight: 6, minlen: 1 }
+  if (kind === 'recognized') return { weight: 5, minlen: 1 }
   if (kind === 'betrothal' || kind === 'ward') return { weight: 4, minlen: 1 }
   if (kind === 'serves') return { weight: 2, minlen: 2 }
   return { weight: 1, minlen: 2 }

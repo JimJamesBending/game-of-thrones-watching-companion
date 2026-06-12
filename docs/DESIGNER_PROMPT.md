@@ -24,12 +24,14 @@ Desired aesthetic:
 Build a beautiful cinematic atlas and noble-house dossier. It should feel like a premium visual reference desk: image-led, clear, tactile, and fast to scan. Use a restrained dark foundation, bright readable text, and house-color accents, but avoid a one-note palette. Let portraits, map fragments, house sigils, object thumbnails, and place images carry the visual weight. The signature move should be an "episode evidence board": portraits, relationship graph, map pins, and lore tiles feel connected without becoming cluttered.
 
 Layout:
-- Use a persistent left episode rail with season/episode controls and page anchors.
-- Include a draggable vertical resize rail so the content workspace can claim more space.
-- Use two main content columns on desktop:
-  - Primary column: relationship graph and character roster.
-  - Secondary column: map, house key, glossary, weapons, objects, and places.
-- On tablet/mobile, collapse to a clean single column with the episode selector first, then graph, roster, map, and glossary.
+- Use a compact top episode bar with season/episode controls and icon anchors. Do not use a left sidebar; content space is more important.
+- The first functional content after the episode summary must be a near full-viewport relationship/family canvas.
+- Use a full-width content stack on desktop:
+  - Relationship graph first, with as much viewport height as possible.
+  - Map below the graph, wide and readable, paired with the house/relationship key where space allows.
+  - Character roster below, with large image-led cards.
+  - Glossary, weapons, objects, and places can follow as full-width bands or dense repeated-item grids.
+- On tablet/mobile, keep the top controls compact, then show graph, map, roster, and glossary in a clean single column.
 - Do not put cards inside cards. Use cards for repeated items only.
 - Every fixed-format area needs stable dimensions so labels, images, buttons, and hover states do not resize the layout.
 
@@ -43,8 +45,9 @@ Graph requirements:
   - Far zoom: portrait or initials and house color only.
   - Mid zoom: name, house, title, and relationship lines.
   - Near zoom: spoiler-safe memory note, tags, actor, origin, and source.
-- Solid lines mean blood or marriage.
-- Dashed lines mean non-blood/non-marriage connections such as ward, service, conflict, acquaintance, political bargain, secret, betrothal, or alliance.
+- Solid lines mean confirmed blood or marriage.
+- Public/legal/acknowledged family that should not be asserted as biological must use a separate recognized-family edge style.
+- Dashed lines mean recognized family or non-blood/non-marriage connections such as ward, service, conflict, acquaintance, political bargain, secret, betrothal, or alliance.
 - Edge labels should be short, legible, and never cover node text or faces.
 - Structural family relationships should drive layout more than weaker "knows" edges.
 - Related family members should sit near each other. Spouses, siblings, parents, and children should be visually grouped in a way that makes sense.
@@ -175,6 +178,7 @@ Design the UI around structured content, not hard-coded text. Add or plan these 
 - PlaceEntry: id, name, region, x, y, known, knownByEpisode, image, sources.
 - ImageAsset: src, alt, sourceType, sourceUrl, license, attribution, knownByEpisode.
 - SourceLink: label, url, accessedAt, notes.
+- Relationship.kind must distinguish `blood` from `recognized`; do not use `blood` for public cover stories, presumed parentage, or episode-safe household claims.
 
 Interaction requirements:
 - Search across characters, actors, houses, places, weapons, objects, and glossary terms.
@@ -200,4 +204,3 @@ Deliverables:
 - A sample episode page using S1E1 with character portraits/place imagery/object tiles represented by legal placeholders if needed.
 - A QA checklist specifically checking graph extents, node overlap, label collisions, image attribution, spoiler boundaries, and mobile readability.
 ```
-

@@ -10,8 +10,8 @@ const zoomSelector = (state: { transform: [number, number, number] }) => state.t
 export function CharacterNode({ data }: NodeProps<CharacterFlowNode>) {
   const zoom = useStore(zoomSelector)
   const house = houses[data.house]
-  const compact = zoom < 0.55
-  const detailed = zoom > 1.12
+  const compact = zoom < 0.3
+  const detailed = zoom > 0.82
 
   return (
     <article

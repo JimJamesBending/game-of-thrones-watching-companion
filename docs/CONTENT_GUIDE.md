@@ -33,7 +33,8 @@ Record sources in the `sources` array for each episode file.
 
 Use the smallest truthful relationship set needed for comprehension.
 
-- `blood`: parent, child, sibling, acknowledged blood family, or publicly understood blood relation.
+- `blood`: biological or explicitly established blood family only. Do not use it for public cover stories, presumed parentage, or episode-safe social claims.
+- `recognized`: publicly presented, acknowledged, legal, or household family where the page should not assert a biological blood tie.
 - `marriage`: current or past marriage known by this episode.
 - `betrothal`: promised or proposed marriage.
 - `ward`: ward, foster child, hostage-like household position, or raised in another household.
@@ -42,7 +43,7 @@ Use the smallest truthful relationship set needed for comprehension.
 - `secret`: a connection known to the viewer but hidden from most characters.
 - `conflict`: threat, harm, capture, accusation, or direct opposition.
 
-Solid lines are reserved for `blood` and `marriage`. All other relationship kinds render dashed or dotted.
+Solid lines are reserved for `blood` and `marriage`. `recognized` family uses a distinct dashed line so it does not read as biological certainty. All other relationship kinds render dashed or dotted.
 
 ## Map Rules
 

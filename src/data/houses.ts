@@ -131,6 +131,7 @@ export const houses: Record<
 
 export const relationCopy: { kind: RelationshipKind; label: string }[] = [
   { kind: 'blood', label: 'Blood family' },
+  { kind: 'recognized', label: 'Recognized family' },
   { kind: 'marriage', label: 'Marriage' },
   { kind: 'betrothal', label: 'Promised marriage' },
   { kind: 'ward', label: 'Ward / foster / household' },

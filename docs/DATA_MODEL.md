@@ -68,7 +68,7 @@ export const episodeS01E02: EpisodeContent = {
 - `id`: stable unique id.
 - `source`: character id.
 - `target`: character id.
-- `kind`: one of `blood`, `marriage`, `betrothal`, `ward`, `serves`, `knows`, `secret`, or `conflict`.
+- `kind`: one of `blood`, `recognized`, `marriage`, `betrothal`, `ward`, `serves`, `knows`, `secret`, or `conflict`.
 - `label`: short edge label.
 - `note`: optional private curation note.
 

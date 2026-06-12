@@ -27,6 +27,7 @@ export type HouseId =
 
 export type RelationshipKind =
   | 'blood'
+  | 'recognized'
   | 'marriage'
   | 'betrothal'
   | 'ward'
